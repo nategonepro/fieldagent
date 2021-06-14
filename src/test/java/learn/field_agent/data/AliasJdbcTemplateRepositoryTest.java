@@ -40,7 +40,19 @@ class AliasJdbcTemplateRepositoryTest {
     }
 
     @Test
+    void shouldNotUpdateMissing(){
+        Alias alias = new Alias(1500, "Jimmy", "Missing alias", 1);
+
+        assertFalse(repository.update(alias));
+    }
+
+    @Test
     void shouldDelete(){
         assertTrue(repository.deleteById(3));
+    }
+
+    @Test
+    void shouldNotDeleteMissing(){
+        assertFalse(repository.deleteById(1500));
     }
 }
