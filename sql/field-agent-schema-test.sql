@@ -102,11 +102,15 @@ begin
 
 	delete from location;
     alter table location auto_increment = 1;
+    delete from alias;
+    alter table alias auto_increment = 1;
     delete from agency_agent;
 	delete from agency;
 	alter table agency auto_increment = 1;
     delete from agent;
     alter table agent auto_increment = 1;
+    delete from security_clearance;
+    alter table security_clearance auto_increment = 1;
     
     insert into agency(agency_id, short_name, long_name) values
         (1, 'ACME', 'Agency to Classify & Monitor Evildoers'),
@@ -134,6 +138,16 @@ begin
 		('Ulises','B','Muhammad','2008-04-01',80),
 		('Phylys','Y','Howitt','1979-03-28',68);
         
+	insert into security_clearance values
+		(1, 'Secret'),
+		(2, 'Top Secret'),
+        (3, 'Ears Only');
+        
+	insert into alias values
+		(1, 'Harold', '', 1),
+		(2, 'James', 'Prefers martinis shaken, not stirred', 1),
+        (3, 'Bob', 'Not a cable guy', 1);
+        
 	insert into agency_agent 
 		(agency_id, agent_id, identifier, security_clearance_id, activation_date)
     select
@@ -155,3 +169,8 @@ delimiter ;
 insert into security_clearance values
 	(1, 'Secret'),
     (2, 'Top Secret');
+    
+insert into alias values
+		(1, 'Harold', '', 1),
+		(2, 'James', 'Prefers martinis shaken, not stirred', 1),
+        (3, 'Bob', 'Not a cable guy', 1);

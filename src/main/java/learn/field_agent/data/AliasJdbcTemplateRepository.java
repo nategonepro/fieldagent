@@ -50,7 +50,8 @@ public class AliasJdbcTemplateRepository implements AliasRepository {
         return jdbcTemplate.update(sql,
                 alias.getName(),
                 alias.getPersona(),
-                alias.getAgentId()) > 0;
+                alias.getAgentId(),
+                alias.getAliasId()) > 0;
     }
 
     @Override
