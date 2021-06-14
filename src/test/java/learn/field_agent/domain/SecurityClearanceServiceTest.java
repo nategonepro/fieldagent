@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyChar;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -43,6 +44,40 @@ class SecurityClearanceServiceTest {
         sc.setSecurityClearanceId(1);
         Result<SecurityClearance> result = service.add(sc);
         assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldUpdate(){
+        SecurityClearance toUpdate = new SecurityClearance(1, "Ears Only");
+
+        when(repository.update(toUpdate)).thenReturn(true);
+        Result<SecurityClearance> actual = service.update(toUpdate);
+        assertEquals(ResultType.SUCCESS, actual.getType());
+    }
+
+    @Test
+    void shouldNotUpdateMissing(){
+        SecurityClearance toUpdate = new SecurityClearance(1500, "Ultra Secret");
+
+        when(repository.update(toUpdate)).thenReturn(false);
+        Result<SecurityClearance> actual = service.update(toUpdate);
+        assertEquals(ResultType.NOT_FOUND, actual.getType());
+    }
+
+    @Test
+    void shouldNotUpdateWhenInvalid(){
+        SecurityClearance toUpdate = new SecurityClearance(1, null);
+
+        Result<SecurityClearance> result = service.update(toUpdate);
+        assertEquals(ResultType.INVALID, result.getType());
+    }
+
+    @Test
+    void shouldNotUpdateWhenNull(){
+        SecurityClearance toUpdate = null;
+
+        Result<SecurityClearance> result = service.update(toUpdate);
+        assertEquals(ResultType.INVALID, result.getType());
     }
 
     SecurityClearance makeSC(){
